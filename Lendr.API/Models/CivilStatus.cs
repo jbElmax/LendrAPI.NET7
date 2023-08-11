@@ -1,4 +1,6 @@
-﻿namespace Lendr.API.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+namespace Lendr.API.Models
 {
     public class CivilStatus
     {
