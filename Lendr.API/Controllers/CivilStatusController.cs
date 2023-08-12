@@ -9,6 +9,7 @@ using Lendr.API.Data;
 using Lendr.API.Models;
 using Lendr.API.DTO.CivilStatus;
 using AutoMapper;
+using Lendr.API.Contracts;
 
 namespace Lendr.API.Controllers
 {
@@ -16,12 +17,12 @@ namespace Lendr.API.Controllers
     [ApiController]
     public class CivilStatusController : ControllerBase
     {
-        private readonly LendrDBContext _context;
+        private readonly ICivilStatusRepository _civilStatusRepository;
         private readonly IMapper _mapper;
 
-        public CivilStatusController(LendrDBContext context,IMapper mapper)
+        public CivilStatusController(ICivilStatusRepository civilStatusRepository,IMapper mapper)
         {
-            _context = context;
+            _civilStatusRepository = civilStatusRepository;
             _mapper = mapper;
         }
 
@@ -29,11 +30,8 @@ namespace Lendr.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetCivilStatusesDto>>> GetCivilStatuses()
         {
-          if (_context.CivilStatuses == null)
-          {
-              return NotFound();
-          }
-            var civilStatuses = await _context.CivilStatuses.ToListAsync();
+
+            var civilStatuses = await _civilStatusRepository.GetAllAsync();
             var listCivilStat = _mapper.Map<IEnumerable<GetCivilStatusesDto>>(civilStatuses);
             return Ok(listCivilStat);
         }
@@ -42,11 +40,8 @@ namespace Lendr.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CivilStatusDto>> GetCivilStatus(int id)
         {
-          if (_context.CivilStatuses == null)
-          {
-              return NotFound();
-          }
-            var civilStatus = await _context.CivilStatuses.Include(b => b.Borrowers).Where(c =>c.Id == id).FirstOrDefaultAsync();
+
+            var civilStatus = await _civilStatusRepository.GetDetails(id);
 
             if (civilStatus == null)
             {
@@ -66,19 +61,20 @@ namespace Lendr.API.Controllers
                 return BadRequest();
             }
 
-            var civilStatus =await _context.CivilStatuses.FindAsync(id);
+            var civilStatus =await _civilStatusRepository.GetAsync(id);
             if(civilStatus == null)
             {
                 return NotFound();
             }
-            _mapper.Map(updateCivilStatusDto, civilStatus);
+             _mapper.Map(updateCivilStatusDto, civilStatus);
+            
             try
             {
-                await _context.SaveChangesAsync();
+                await _civilStatusRepository.UpdateAsync(civilStatus);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CivilStatusExists(id))
+                if (!await CivilStatusExists(id))
                 {
                     return NotFound();
                 }
@@ -96,16 +92,10 @@ namespace Lendr.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CivilStatus>> PostCivilStatus(CreateCivilStatusDto createCivilStatus)
         {
-          if (_context.CivilStatuses == null)
-          {
-              return Problem("Entity set 'LendrDBContext.CivilStatuses'  is null.");
-          }
-
 
             var civilStatus = _mapper.Map<CivilStatus>(createCivilStatus);
+            await _civilStatusRepository.AddAsync(civilStatus);
 
-            _context.CivilStatuses.Add(civilStatus);
-            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCivilStatus", new { id = civilStatus.Id }, civilStatus);
         }
@@ -114,25 +104,20 @@ namespace Lendr.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCivilStatus(int id)
         {
-            if (_context.CivilStatuses == null)
-            {
-                return NotFound();
-            }
-            var civilStatus = await _context.CivilStatuses.FindAsync(id);
+            var civilStatus = await _civilStatusRepository.GetAsync(id);
             if (civilStatus == null)
             {
                 return NotFound();
             }
-
-            _context.CivilStatuses.Remove(civilStatus);
-            await _context.SaveChangesAsync();
+             await _civilStatusRepository.DeleteAsync(id);
 
             return NoContent();
         }
 
-        private bool CivilStatusExists(int id)
+        private async Task<bool> CivilStatusExists(int id)
         {
-            return (_context.CivilStatuses?.Any(e => e.Id == id)).GetValueOrDefault();
+            return await _civilStatusRepository.Exists(id);
+            
         }
     }
 }

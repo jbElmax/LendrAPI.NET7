@@ -1,5 +1,7 @@
 using Lendr.API.Configuration;
+using Lendr.API.Contracts;
 using Lendr.API.Data;
+using Lendr.API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -21,6 +23,8 @@ builder.Services.AddCors(options => {
 });
 builder.Host.UseSerilog((context,loggerCon) => loggerCon.WriteTo.Console().ReadFrom.Configuration(context.Configuration));
 builder.Services.AddAutoMapper(typeof(MapperConfig));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ICivilStatusRepository,CivilStatusRepository>();
 
 var app = builder.Build();
 
