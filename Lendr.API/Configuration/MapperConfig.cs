@@ -14,6 +14,8 @@ namespace Lendr.API.Configuration
             CreateMap<CivilStatus, CivilStatusDto>().ReverseMap();
             CreateMap<CivilStatus, UpdateCivilStatusDto>().ReverseMap();
             CreateMap<Borrower, BorrowerDto>().ReverseMap();
+            CreateMap<Borrower, GetBorrowerDto>().ReverseMap();
+            CreateMap<Borrower, CreateBorrowerDto>().ReverseMap();
         }
     }
 }

@@ -25,6 +25,7 @@ builder.Host.UseSerilog((context,loggerCon) => loggerCon.WriteTo.Console().ReadF
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICivilStatusRepository,CivilStatusRepository>();
+builder.Services.AddScoped<IBorrowerRepository, BorrowerRepository>();
 
 var app = builder.Build();
 

@@ -1,4 +1,6 @@
-﻿namespace Lendr.API.DTO.CivilStatus
+﻿using Lendr.API.DTO.Borrower;
+
+namespace Lendr.API.DTO.CivilStatus
 {
     public class UpdateCivilStatusDto : BaseCivilStatusDto
     {
