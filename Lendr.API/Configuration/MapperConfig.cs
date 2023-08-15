@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Lendr.API.DTO.Borrower;
 using Lendr.API.DTO.CivilStatus;
+using Lendr.API.DTO.User;
 using Lendr.API.Models;
 
 namespace Lendr.API.Configuration
@@ -16,6 +17,7 @@ namespace Lendr.API.Configuration
             CreateMap<Borrower, BorrowerDto>().ReverseMap();
             CreateMap<Borrower, GetBorrowerDto>().ReverseMap();
             CreateMap<Borrower, CreateBorrowerDto>().ReverseMap();
+            CreateMap<ApiUser,ApiUserDto>().ReverseMap();
         }
     }
 }

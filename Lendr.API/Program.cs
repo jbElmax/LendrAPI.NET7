@@ -1,7 +1,10 @@
 using Lendr.API.Configuration;
 using Lendr.API.Contracts;
 using Lendr.API.Data;
+using Lendr.API.Models;
 using Lendr.API.Repository;
+using Lendr.API.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -13,6 +16,7 @@ var connectionString = builder.Configuration.GetConnectionString("LendrDBConnect
 builder.Services.AddDbContext<LendrDBContext>(options => {
     options.UseSqlServer(connectionString);
 });
+builder.Services.AddIdentityCore<ApiUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<LendrDBContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,6 +30,7 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICivilStatusRepository,CivilStatusRepository>();
 builder.Services.AddScoped<IBorrowerRepository, BorrowerRepository>();
+builder.Services.AddScoped<IAuthManager, AuthManager>();
 
 var app = builder.Build();
 
