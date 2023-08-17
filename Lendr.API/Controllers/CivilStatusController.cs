@@ -10,11 +10,13 @@ using Lendr.API.Models;
 using Lendr.API.DTO.CivilStatus;
 using AutoMapper;
 using Lendr.API.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lendr.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CivilStatusController : ControllerBase
     {
         private readonly ICivilStatusRepository _civilStatusRepository;

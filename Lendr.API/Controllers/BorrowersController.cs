@@ -11,11 +11,13 @@ using Lendr.API.Contracts;
 using AutoMapper;
 using System.Collections;
 using Lendr.API.DTO.Borrower;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lendr.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BorrowersController : ControllerBase
     {
         private readonly IBorrowerRepository _borrowerRepository;
@@ -55,6 +57,7 @@ namespace Lendr.API.Controllers
         // PUT: api/Borrowers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles ="Administrator")]
         public async Task<IActionResult> PutBorrower(int id, BorrowerDto borrower)
         {
             if (id != borrower.Id)
@@ -89,6 +92,7 @@ namespace Lendr.API.Controllers
         // POST: api/Borrowers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<Borrower>> PostBorrower(CreateBorrowerDto newBorrower)
         {
           if (newBorrower == null)
@@ -104,6 +108,7 @@ namespace Lendr.API.Controllers
 
         // DELETE: api/Borrowers/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteBorrower(int id)
         {
             var borrower = await _borrowerRepository.GetAsync(id);
