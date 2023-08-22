@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lendr.API", "Lendr.API\Lendr.API.csproj", "{CC4E9D05-2B7A-4253-9AEC-0D905D645CD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lendr.API", "Lendr.API\Lendr.API.csproj", "{CC4E9D05-2B7A-4253-9AEC-0D905D645CD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lendr.API.Data", "Lendr.Data\Lendr.API.Data.csproj", "{11259219-6EE0-4498-8F86-E0C911A002BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lendr.API.Core", "Lendr.API.Core\Lendr.API.Core.csproj", "{55D7E94E-1C4E-4543-A806-031D255824A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{CC4E9D05-2B7A-4253-9AEC-0D905D645CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC4E9D05-2B7A-4253-9AEC-0D905D645CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC4E9D05-2B7A-4253-9AEC-0D905D645CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11259219-6EE0-4498-8F86-E0C911A002BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11259219-6EE0-4498-8F86-E0C911A002BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11259219-6EE0-4498-8F86-E0C911A002BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11259219-6EE0-4498-8F86-E0C911A002BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D7E94E-1C4E-4543-A806-031D255824A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D7E94E-1C4E-4543-A806-031D255824A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D7E94E-1C4E-4543-A806-031D255824A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D7E94E-1C4E-4543-A806-031D255824A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

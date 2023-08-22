@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Lendr.API.Data;
-using Lendr.API.Models;
-using Lendr.API.DTO.CivilStatus;
+
 using AutoMapper;
-using Lendr.API.Contracts;
+using Lendr.API.Core.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using Lendr.API.Models;
+using Lendr.API.Core.DTO.CivilStatus;
 
 namespace Lendr.API.Controllers
 {

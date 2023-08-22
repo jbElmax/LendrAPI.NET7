@@ -1,7 +1,9 @@
-﻿using Lendr.API.Contracts;
-using Lendr.API.DTO.User;
+﻿using Lendr.API.Core.Contracts;
+using Lendr.API.Core.DTO.User;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace Lendr.API.Controllers
 {
@@ -10,10 +12,12 @@ namespace Lendr.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAuthManager _authManager;
+        private readonly ILogger _logger;
 
-        public AccountController(IAuthManager authManager)
+        public AccountController(IAuthManager authManager,ILogger<AccountController> logger)
         {
             this._authManager = authManager;
+            this._logger = logger;
         }
 
         [HttpPost]
@@ -23,18 +27,23 @@ namespace Lendr.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Register([FromBody]ApiUserDto apiUserDto)
         {
-            var errors =await _authManager.Register(apiUserDto);
+            _logger.LogInformation($"Registration attempt for {apiUserDto.Email}");
 
-            if (errors.Any())
-            {
-                foreach(var error in errors)
+                var errors = await _authManager.Register(apiUserDto);
+
+                if (errors.Any())
                 {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
-                return BadRequest(ModelState);
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                    return BadRequest(ModelState);
 
-            }
-            return Ok();
+                }
+                return Ok();
+        
+
+
         }
         [HttpPost]
         [Route("login")]
@@ -43,12 +52,17 @@ namespace Lendr.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var authResponse = await _authManager.Login(loginDto);
-            if (authResponse == null)
-            {
-                return Unauthorized();
-            }
-            return Ok(authResponse);
+
+                _logger.LogInformation($"Initiate loggin process for {loginDto.Email}...");
+                var authResponse = await _authManager.Login(loginDto);
+                if (authResponse == null)
+                {
+                    return Unauthorized();
+                }
+                return Ok(authResponse);
+       
+
+
         }
         [HttpPost]
         [Route("refreshtoken")]
